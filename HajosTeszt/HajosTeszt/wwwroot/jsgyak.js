@@ -8,7 +8,7 @@
         for (var o = 0; o < 10; o++) {
             let szám = document.createElement('div');
             szám.classList.add('számClass');
-            szám.innerText = (faktoriálisR(s)) / ((faktoriálisR(o) - faktoriális(s - o))
+            szám.innerText = (faktoriálisR(s)) / ((faktoriálisR(o) * faktoriális(s - o))
         }
     }
 }
