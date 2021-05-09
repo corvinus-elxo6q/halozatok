@@ -11,7 +11,7 @@ function letoltes() {
 
     fetch('/questions/1')
         .then(response => response.json())
-        .then(data => kerdesMegjelenites(data)
+        .then(data => kérdésMegjelenites(data)
         );
 }
 
@@ -22,7 +22,7 @@ function letoltes() {
 //    kerdesMegjelenites(0);
 //}
 
-function kerdesMegjelenites(kérdés) {
+function kérdésMegjelenites(kérdés) {
     console.log(kérdés)
     dummy = kérdés;
     document.getElementById("kérdés_szöveg").innerHTML = kérdés.questionText;
@@ -91,5 +91,5 @@ function kérdésBetöltés(id) {
                 return response.json()
             }
         })
-        .then(data => kerdesMegjelenites(data));
+        .then(data => kérdésMegjelenites(data));
 }

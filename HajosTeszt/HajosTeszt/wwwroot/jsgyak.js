@@ -9,6 +9,7 @@
             let szám = document.createElement('div');
             szám.classList.add('számClass');
             szám.innerText = (faktoriálisR(s)) / ((faktoriálisR(o) * faktoriális(s - o))
+            )
         }
     }
 }
