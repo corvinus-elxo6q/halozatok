@@ -23,23 +23,25 @@ function init() {
 
     //Előre-hátra
     document.getElementById("elore_gomb").addEventListener("click", elore);
-    document.getElementById("hatra_gomb").addEventListener("click", vissza);
+    document.getElementById("vissza_gomb").addEventListener("click", vissza);
 
     //Mentés visszatöltése
+
     if (localStorage.getItem("hotList")) {
         hotList = JSON.parse(localStorage.getItem("hotList"))
     }
     if (localStorage.getItem("displayedQuestion")) {
-        hotList = parseInt(localStorage.getItem("displayedQuestion"))
+        displayedQuestion = parseInt(localStorage.getItem("displayedQuestion"))
     }
     if (localStorage.getItem("nextQuestion")) {
-        hotList = parseInt(localStorage.getItem("nextQuestion"))
+        nextQuestion = parseInt(localStorage.getItem("nextQuestion"))
     }
 
 
     //Kezdő kérdéslista betöltése
 
-    if (hotList.length===0) {
+    if (!localStorage.getItem("hotList")) {
+        console.log("Nincsen mentett állapot");
         for (let i = 0; i < questionsInHotList; i++) {
             kérdésBetöltés(nextQuestion, i);
             nextQuestion++;
@@ -47,6 +49,7 @@ function init() {
     }
     else {
         console.log("Local storage-ból beolvasott kérdésekkel dolgozunk!");
+
         kérdésMegjelenítés();
     }
 }
@@ -64,7 +67,7 @@ function kérdésBetöltés(questionNumber, destination) {
             }
         })
         .then(q => {
-            hotList[destination] = q;
+            hotList[destination].question = q;
             hotList[destination].goodAnswers = 0;
             console.log(`A ${questionNumber}. kérdés letöltésre került a hotlist ${destination}. helyére`);
             if (displayedQuestion === undefined && destination === 0) {
@@ -103,11 +106,13 @@ function elore() {
     clearTimeout(timerHandler);
     displayedQuestion++;
     if (displayedQuestion === questionsInHotList) displayedQuestion = 0;
+    kérdésMegjelenítés();
 }
 
 function vissza() {
     displayedQuestion--;
     if (displayedQuestion < 0) displayedQuestion = questionsInHotList - 1;
+    kérdésMegjelenítés();
 }
 
 function választás(n) {
@@ -117,7 +122,7 @@ function választás(n) {
     if (n === kérdés.correctAnswer) {
         document.getElementById("válasz" + n).classList.add("jó");
         hotList[displayedQuestion].goodAnswers++;
-        if (hotList[displayedQuestion].goodAnswers===3) {
+        if (hotList[displayedQuestion].goodAnswers === 3) {
             kérdékérdésBetöltés(nextQuestion, displayedQuestion);
             nextQuestion++;
             //ToDO: kérdéslista vége
